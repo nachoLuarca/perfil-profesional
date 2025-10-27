@@ -1,18 +1,26 @@
 @extends('layouts.app')
 
-@section('title', $user->name . ' - Perfil Profesional')
-@section('meta_description', $user->bio)
-@section('meta_keywords', 'Portafolio, ' . $user->profession)
+@section('title', $user?->name ? $user->name . ' - Perfil Profesional' : 'Perfil Profesional')
+@section('meta_description', $user?->bio ?? 'Sin descripción disponible')
+@section('meta_keywords', 'Portafolio, ' . ($user?->profession ?? 'Profesión no especificada'))
+
 
 @section('content')
 <div class="container py-5">
   <div class="text-center mb-5">
-    @if($user->photo)
-      <img src="{{ asset('storage/' . $user->photo) }}" class="rounded-circle" width="150">
-    @endif
-    <h1 class="mt-3">{{ $user->name }}</h1>
-    <h4 class="text-muted">{{ $user->profession }}</h4>
-    <p>{{ $user->bio }}</p>
+    @if($user)
+  <div class="text-center mb-5">
+      @if($user->photo)
+          <img src="{{ asset('storage/' . $user->photo) }}" class="rounded-circle" width="150">
+      @endif
+      <h1 class="mt-3">{{ $user->name }}</h1>
+      <h4 class="text-muted">{{ $user->profession }}</h4>
+      <p>{{ $user->bio }}</p>
+  </div>
+@else
+  <p class="text-center text-muted">No hay usuario disponible actualmente.</p>
+@endif
+s
   </div>
 
   <h2>Competencias</h2>
