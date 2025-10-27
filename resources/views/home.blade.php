@@ -20,7 +20,6 @@
 @else
   <p class="text-center text-muted">No hay usuario disponible actualmente.</p>
 @endif
-s
   </div>
 
   <h2>Competencias</h2>
