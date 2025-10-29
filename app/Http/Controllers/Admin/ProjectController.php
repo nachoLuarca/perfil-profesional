@@ -3,14 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Services\ProjectService;
 use App\Models\Project;
 
 class ProjectController extends Controller
 {
+    protected $service;
+
+    public function __construct(ProjectService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        $projects = Project::latest()->paginate(10);
+        $projects = $this->service->listProjects();
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -19,21 +26,10 @@ class ProjectController extends Controller
         return view('admin.projects.create');
     }
 
-    public function store(Request $request)
+    public function store(\Illuminate\Http\Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required',
-            'image' => 'nullable|image',
-            'url' => 'nullable|url'
-        ]);
-
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('projects','public');
-        }
-
-        Project::create($validated);
-        return redirect()->route('admin.projects.index')->with('success','Proyecto creado correctamente.');
+        $this->service->storeProject($request);
+        return redirect()->route('admin.projects.index')->with('success', 'Proyecto creado correctamente.');
     }
 
     public function edit(Project $project)
@@ -41,28 +37,15 @@ class ProjectController extends Controller
         return view('admin.projects.edit', compact('project'));
     }
 
-    public function update(Request $request, Project $project)
+    public function update(\Illuminate\Http\Request $request, Project $project)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required',
-            'image' => 'nullable|image',
-            'url' => 'nullable|url'
-        ]);
-
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('projects','public');
-        }
-
-        $project->update($validated);
-        return redirect()->route('admin.projects.index')->with('success','Proyecto actualizado.');
+        $this->service->updateProject($request, $project);
+        return redirect()->route('admin.projects.index')->with('success', 'Proyecto actualizado correctamente.');
     }
 
     public function destroy(Project $project)
     {
-        // opcional: borrar archivo anterior
-        $project->delete();
-        return redirect()->route('admin.projects.index')->with('success','Proyecto eliminado.');
+        $this->service->deleteProject($project);
+        return redirect()->route('admin.projects.index')->with('success', 'Proyecto eliminado correctamente.');
     }
 }
-

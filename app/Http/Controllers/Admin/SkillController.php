@@ -3,14 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Services\SkillService;
 use App\Models\Skill;
+use Illuminate\Http\Request;
 
 class SkillController extends Controller
 {
+    protected $service;
+
+    public function __construct(SkillService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        $skills = Skill::all();
+        $skills = $this->service->listSkills();
         return view('admin.skills.index', compact('skills'));
     }
 
@@ -21,13 +29,8 @@ class SkillController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'level' => 'required|integer|min:0|max:100'
-        ]);
-
-        Skill::create($validated);
-        return redirect()->route('admin.skills.index')->with('success','Competencia creada.');
+        $this->service->storeSkill($request);
+        return redirect()->route('admin.skills.index')->with('success', 'Competencia creada correctamente.');
     }
 
     public function edit(Skill $skill)
@@ -37,18 +40,13 @@ class SkillController extends Controller
 
     public function update(Request $request, Skill $skill)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'level' => 'required|integer|min:0|max:100'
-        ]);
-
-        $skill->update($validated);
-        return redirect()->route('admin.skills.index')->with('success','Competencia actualizada.');
+        $this->service->updateSkill($request, $skill);
+        return redirect()->route('admin.skills.index')->with('success', 'Competencia actualizada correctamente.');
     }
 
     public function destroy(Skill $skill)
     {
-        $skill->delete();
-        return redirect()->route('admin.skills.index')->with('success','Competencia eliminada.');
+        $this->service->deleteSkill($skill);
+        return redirect()->route('admin.skills.index')->with('success', 'Competencia eliminada correctamente.');
     }
 }
