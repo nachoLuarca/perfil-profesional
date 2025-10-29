@@ -14,12 +14,13 @@ class SkillSeeder extends Seeder
     public function run(): void
     {
         $skills = [
-            ['name' => 'HTML', 'level' => '90'],
+            ['name' => 'HTML', 'level' => '80'],
             ['name' => 'CSS', 'level' => '80'],
             ['name' => 'JavaScript', 'level' => '90'],
-            ['name' => 'Laravel', 'level' => '90'],
+            ['name' => 'PHP', 'level' => '90'],
+            ['name' => 'Laravel', 'level' => '80'],
             ['name' => 'MySQL', 'level' => '100'],
-            ['name' => 'React', 'level' => '50'],
+           
         ];
 
         foreach ($skills as $skill) {
