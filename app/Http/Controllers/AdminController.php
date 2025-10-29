@@ -1,37 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Models\Project;
-use App\Models\Skill;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Services\ProjectService;
+use App\Services\SkillService;
 
 class AdminController extends Controller
 {
-    /**
-     * Mostrar el dashboard de administración.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function dashboard()
-    {
-        $projects = Project::latest()->paginate(5);
-        $skills = Skill::all();
+    protected $projectService;
+    protected $skillService;
 
-        return view('admin.dashboard', compact('projects', 'skills'));
+    public function __construct(ProjectService $projectService, SkillService $skillService)
+    {
+        $this->projectService = $projectService;
+        $this->skillService = $skillService;
     }
 
-    /**
-     * Mostrar el perfil del usuario autenticado.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function profile()
+    public function dashboard()
     {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
+        $projects = $this->projectService->listProjects(5);
+        $skills = $this->skillService->listSkills();
 
-        return view('admin.profile', compact('user'));
+        return view('admin.dashboard', compact('projects', 'skills'));
     }
 }
