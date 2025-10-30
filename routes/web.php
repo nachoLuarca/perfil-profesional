@@ -7,11 +7,14 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\ContactController;
 // ---------------------------------------------
 // 🌍 RUTAS PÚBLICAS
 // ---------------------------------------------
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/contacto', [ContactController::class, 'index'])->name('contact.index');
+Route::post('/contacto', [ContactController::class, 'send'])->name('contact.send');
 
 // ---------------------------------------------
 // 🔐 RUTAS DEL PANEL DE ADMINISTRACIÓN
@@ -31,6 +34,13 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Perfil profesional (UserController en namespace Admin)
     Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('user/{user}', [UserController::class, 'update'])->name('user.update');
+
+    // Dentro del grupo admin
+    Route::get('contact', [App\Http\Controllers\Admin\ContactController::class, 'edit'])->name('contact.edit');
+    Route::put('contact', [App\Http\Controllers\Admin\ContactController::class, 'update'])->name('contact.update');
+    Route::get('contact/messages', [App\Http\Controllers\Admin\ContactMessageController::class, 'index'])
+    ->name('contact.messages');
+
 });
 
 // ---------------------------------------------
@@ -42,9 +52,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-// ---------------------------------------------
+});
+// Envío del formulario desde home
+Route::post('/', [HomeController::class, 'sendMessage'])->name('home.send');
+
 // 🧭 AUTENTICACIÓN (Breeze / Fortify / Jetstream)
 // ---------------------------------------------
 require __DIR__.'/auth.php';
