@@ -103,6 +103,37 @@
                 </form>
             </div>
         </div>
+            {{-- Sección de redes sociales --}}
+        <div class="py-5 border-top mt-5 text-center">
+            <h2 class="mb-4">Sígueme en redes sociales</h2>
+            <div class="d-flex justify-content-center gap-4">
+                @if($user->facebook)
+                    <a href="{{ $user->facebook }}" target="_blank" class="text-decoration-none text-dark">
+                        <i class="fab fa-facebook fa-2x"></i>
+                    </a>
+                @endif
+                @if($user->instagram)
+                    <a href="{{ $user->instagram }}" target="_blank" class="text-decoration-none text-dark">
+                        <i class="fab fa-instagram fa-2x"></i>
+                    </a>
+                @endif
+                @if($user->twitter)
+                    <a href="{{ $user->twitter }}" target="_blank" class="text-decoration-none text-dark">
+                        <i class="fab fa-twitter fa-2x"></i>
+                    </a>
+                @endif
+                @if($user->linkedin)
+                    <a href="{{ $user->linkedin }}" target="_blank" class="text-decoration-none text-dark">
+                        <i class="fab fa-linkedin fa-2x"></i>
+                    </a>
+                @endif
+                @if($user->github)
+                    <a href="{{ $user->github }}" target="_blank" class="text-decoration-none text-dark">
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
+                @endif
+            </div>
+        </div>
     </div>
 </div>
 @endsection
