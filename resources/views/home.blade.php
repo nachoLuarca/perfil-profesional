@@ -51,11 +51,22 @@
     {{-- Sección de contacto --}}
     <div class="py-5 border-top mt-5">
         <h2 class="text-center mb-4">Contáctame</h2>
-
+        {{-- Alertas de éxito o error general --}}
         @if(session('success'))
             <div class="alert alert-success text-center">{{ session('success') }}</div>
         @elseif(session('error'))
             <div class="alert alert-danger text-center">{{ session('error') }}</div>
+        @endif
+
+        {{-- Mostrar errores de validación --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
 
         <div class="row justify-content-center">
@@ -80,21 +91,36 @@
         {{-- Formulario de mensaje --}}
         <div class="row justify-content-center mt-4">
             <div class="col-md-8">
-                <form method="POST" action="{{ route('home.send') }}">
+               <form method="POST" action="{{ route('home.send') }}" novalidate>
                     @csrf
+                    {{-- Nombre --}}
                     <div class="mb-3">
                         <label for="name" class="form-label">Tu nombre</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                            id="name" name="name" value="{{ old('name') }}" required>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
+                    {{-- Correo --}}
                     <div class="mb-3">
                         <label for="email" class="form-label">Tu correo</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror"
+                            id="email" name="email" value="{{ old('email') }}" required>
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
+                    {{-- Mensaje --}}
                     <div class="mb-3">
                         <label for="message" class="form-label">Mensaje</label>
-                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                        <textarea class="form-control @error('message') is-invalid @enderror"
+                                id="message" name="message" rows="5" required>{{ old('message') }}</textarea>
+                        @error('message')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="text-center">
