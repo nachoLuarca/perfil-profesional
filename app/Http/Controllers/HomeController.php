@@ -36,6 +36,14 @@ class HomeController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'message' => 'required|string|min:10',
+        ], [
+            'name.required' => 'Por favor, ingresa tu nombre.',
+            'name.string' => 'El nombre debe ser un texto válido.',
+            'name.max' => 'El nombre no puede superar los 255 caracteres.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Por favor, ingresa un correo electrónico válido.',
+            'message.required' => 'Debes escribir un mensaje antes de enviarlo.',
+            'message.min' => 'El mensaje debe tener al menos 10 caracteres.',
         ]);
 
         $contact = $this->contactRepository->getContact();
@@ -46,6 +54,6 @@ class HomeController extends Controller
 
         $this->contactService->sendMessage($validated, $contact);
 
-        return back()->with('success', 'Tu mensaje ha sido enviado correctamente.');
+        return back()->with('success', 'Tu mensaje ha sido enviado correctamente. ¡Gracias por contactarme!');
     }
 }
