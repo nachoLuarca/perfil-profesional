@@ -51,24 +51,6 @@
     {{-- Sección de contacto --}}
     <div class="py-5 border-top mt-5">
         <h2 class="text-center mb-4">Contáctame</h2>
-        {{-- Alertas de éxito o error general --}}
-        @if(session('success'))
-            <div class="alert alert-success text-center">{{ session('success') }}</div>
-        @elseif(session('error'))
-            <div class="alert alert-danger text-center">{{ session('error') }}</div>
-        @endif
-
-        {{-- Mostrar errores de validación --}}
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         <div class="row justify-content-center">
             <div class="col-md-6 text-center">
                 @if($contact)
@@ -87,12 +69,28 @@
                 @endif
             </div>
         </div>
-
         {{-- Formulario de mensaje --}}
-        <div class="row justify-content-center mt-4">
+        <div class="row justify-content-center mt-4" id="contact-form-section">
             <div class="col-md-8">
-               <form method="POST" action="{{ route('home.send') }}" novalidate>
+                <form method="POST" action="{{ route('home.send') }}#contact-form-section" novalidate>
                     @csrf
+                     {{-- Alertas de éxito o error general --}}
+                    @if(session('success'))
+                        <div class="alert alert-success text-center">{{ session('success') }}</div>
+                    @elseif(session('error'))
+                        <div class="alert alert-danger text-center">{{ session('error') }}</div>
+                    @endif
+
+                    {{-- Mostrar errores de validación --}}
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     {{-- Nombre --}}
                     <div class="mb-3">
                         <label for="name" class="form-label">Tu nombre</label>
