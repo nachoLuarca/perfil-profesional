@@ -95,3 +95,65 @@ input.is-invalid, textarea.is-invalid {
 .scroll-to-top:hover {
     background-color: #45a049;
 }
+h1, h2, h3 {
+  color: #333333;
+}
+a {
+  color: #35424a;
+}
+a:hover {
+  color: #45a049;
+}       
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.button-primary {
+  background-color: #35424a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.button-primary:hover {
+  background-color: #45a049;
+}       
+.list-item {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+.list-item:nth-child(even) {
+  background-color: #f9f9f9;
+}       
+.list-item:hover {
+  background-color: #e9e9e9;
+}   
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th, .table td {
+  border: 1px solid #ccc;
+  padding: 10px;        
+    text-align: left;
+}
+
+.table th {
+  background-color: #f4f4f4;
+}
+.table tr:nth-child(even) {
+    background-color: #f9f9f9;  
+}
+.table tr:hover {
+    background-color: #e9e9e9;
+}
+
+
+
+
+
+
+
+
