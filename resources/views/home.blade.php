@@ -25,6 +25,7 @@
         </div>
         </div>
     @endforeach
+    <br><br>
     {{-- Sección de proyectos --}}
     <div class="mb-5">
         <h2 class="text-center mb-4">Proyectos</h2>
